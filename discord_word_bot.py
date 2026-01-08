@@ -9,7 +9,7 @@ from english_words import get_english_words_set
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
-
+global current_word
 # Liste von 5-Buchstaben-Wörtern (erweitere diese Liste nach Bedarf)
 english_words_set = get_english_words_set(['gcide'], alpha=True)
 english_words_list = list(english_words_set)
@@ -88,7 +88,7 @@ async def on_ready():
 @tasks.loop(time=time(hour=22, minute=55))  # Täglich um 23:55 Berlin Time (CET)
 async def daily_word():
     """Postet täglich ein zufälliges 5-Buchstaben-Wort"""
-    global current_word
+    
     
     if CHANNEL_ID is None:
         print("Fehler: CHANNEL_ID ist nicht gesetzt!")
