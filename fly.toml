@@ -3,13 +3,18 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'discord-word-bot'
-primary_region = 'fra'
+app = "discord-word-bot"
+primary_region = "fra"
 
 [build]
-  builder = 'paketobuildpacks/builder:base'
+
+[processes]
+  worker = "python discord_word_bot.py"
 
 [[vm]]
-  cpu_kind = 'shared'
+  cpu_kind = "shared"
   cpus = 1
   memory_mb = 256
+
+[experimental]
+  auto_rollback = true
