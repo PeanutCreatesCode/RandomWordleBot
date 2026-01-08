@@ -9,86 +9,31 @@ from english_words import get_english_words_set
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
-global current_word
-# Liste von 5-Buchstaben-Wörtern (erweitere diese Liste nach Bedarf)
+
+# Hole alle 5-Buchstaben-Wörter aus dem english-words Paket
 english_words_set = get_english_words_set(['gcide'], alpha=True)
 english_words_list = list(english_words_set)
-FIVE_LETTER_WORDS = []
-for word in english_words_set:
-    if len(word) == 5:
-        FIVE_LETTER_WORDS.append(word)
-# FIVE_LETTER_WORDS = [
-#     "about", "above", "abuse", "actor", "acute", "admit", "adopt", "adult", "after",
-#     "again", "agent", "agree", "ahead", "alarm", "album", "alert", "alike", "alive",
-#     "allow", "alone", "along", "alter", "among", "anger", "angle", "angry", "apart",
-#     "apple", "apply", "arena", "argue", "arise", "array", "aside", "asset", "audio",
-#     "avoid", "award", "aware", "badly", "baker", "bases", "basic", "basis", "beach",
-#     "began", "begin", "being", "below", "bench", "billy", "birth", "black", "blame",
-#     "blind", "block", "blood", "board", "boost", "booth", "bound", "brain", "brand",
-#     "bread", "break", "breed", "brief", "bring", "broad", "broke", "brown", "build",
-#     "built", "buyer", "cable", "calif", "carry", "catch", "cause", "chain", "chair",
-#     "chart", "chase", "cheap", "check", "chest", "chief", "child", "china", "chose",
-#     "civil", "claim", "class", "clean", "clear", "click", "clock", "close", "coach",
-#     "coast", "could", "count", "court", "cover", "craft", "crash", "crazy", "cream",
-#     "crime", "cross", "crowd", "crown", "crude", "cycle", "daily", "dance", "dated",
-#     "dealt", "death", "debut", "delay", "depth", "doing", "doubt", "dozen", "draft",
-#     "drama", "drank", "drawn", "dream", "dress", "drill", "drink", "drive", "drove",
-#     "dying", "eager", "early", "earth", "eight", "elite", "empty", "enemy", "enjoy",
-#     "enter", "entry", "equal", "error", "event", "every", "exact", "exist", "extra",
-#     "faith", "false", "fault", "fiber", "field", "fifth", "fifty", "fight", "final",
-#     "first", "flash", "fleet", "floor", "fluid", "focus", "force", "forth", "forty",
-#     "forum", "found", "frame", "frank", "fraud", "fresh", "front", "fruit", "fully",
-#     "funny", "giant", "given", "glass", "globe", "going", "grace", "grade", "grand",
-#     "grant", "grass", "great", "green", "gross", "group", "grown", "guard", "guess",
-#     "guest", "guide", "happy", "harry", "heart", "heavy", "hence", "henry", "horse",
-#     "hotel", "house", "human", "ideal", "image", "index", "inner", "input", "issue",
-#     "japan", "jimmy", "joint", "jones", "judge", "known", "label", "large", "laser",
-#     "later", "laugh", "layer", "learn", "lease", "least", "leave", "legal", "lemon",
-#     "level", "lewis", "light", "limit", "links", "lives", "local", "logic", "loose",
-#     "lower", "lucky", "lunch", "lying", "magic", "major", "maker", "march", "maria",
-#     "match", "maybe", "mayor", "meant", "media", "metal", "might", "minor", "minus",
-#     "mixed", "model", "money", "month", "moral", "motor", "mount", "mouse", "mouth",
-#     "movie", "music", "needs", "never", "newly", "night", "noise", "north", "noted",
-#     "novel", "nurse", "occur", "ocean", "offer", "often", "order", "other", "ought",
-#     "paint", "panel", "paper", "party", "peace", "peter", "phase", "phone", "photo",
-#     "piece", "pilot", "pitch", "place", "plain", "plane", "plant", "plate", "point",
-#     "pound", "power", "press", "price", "pride", "prime", "print", "prior", "prize",
-#     "proof", "proud", "prove", "queen", "quick", "quiet", "quite", "radio", "raise",
-#     "range", "rapid", "ratio", "reach", "ready", "refer", "right", "river", "robin",
-#     "roger", "roman", "rough", "round", "route", "royal", "rural", "scale", "scene",
-#     "scope", "score", "sense", "serve", "seven", "shall", "shape", "share", "sharp",
-#     "sheet", "shelf", "shell", "shift", "shine", "shirt", "shock", "shoot", "short",
-#     "shown", "sight", "since", "sixth", "sixty", "sized", "skill", "sleep", "slide",
-#     "small", "smart", "smile", "smith", "smoke", "solid", "solve", "sorry", "sound",
-#     "south", "space", "spare", "speak", "speed", "spend", "spent", "split", "spoke",
-#     "sport", "staff", "stage", "stake", "stand", "start", "state", "steam", "steel",
-#     "stick", "still", "stock", "stone", "stood", "store", "storm", "story", "strip",
-#     "stuck", "study", "stuff", "style", "sugar", "suite", "sunny", "super", "sweet",
-#     "table", "taken", "taste", "taxes", "teach", "terry", "texas", "thank", "theft",
-#     "their", "theme", "there", "these", "thick", "thing", "think", "third", "those",
-#     "three", "threw", "throw", "tight", "times", "title", "today", "topic", "total",
-#     "touch", "tough", "tower", "track", "trade", "train", "treat", "trend", "trial",
-#     "tribe", "trick", "tried", "tries", "troop", "truck", "truly", "trust", "truth",
-#     "twice", "under", "undue", "union", "unity", "until", "upper", "upset", "urban",
-#     "usage", "usual", "valid", "value", "video", "virus", "visit", "vital", "vocal",
-#     "voice", "waste", "watch", "water", "wheel", "where", "which", "while", "white",
-#     "whole", "whose", "woman", "women", "world", "worry", "worse", "worst", "worth",
-#     "would", "wound", "write", "wrong", "wrote", "young", "youth"
-# ]
+FIVE_LETTER_WORDS = [word for word in english_words_list if len(word) == 5]
+
+print(f"Wortliste geladen: {len(FIVE_LETTER_WORDS)} Wörter mit 5 Buchstaben")
 
 # Channel ID wo der Bot posten soll
 CHANNEL_ID = None  # Wird später gesetzt
 
+# Speichert das aktuelle Wort des Tages
+current_word = None  # Hier initialisieren, NICHT mit global!
+
 @client.event
 async def on_ready():
     print(f'{client.user} ist eingeloggt!')
+    print(f'Verfügbare Wörter: {len(FIVE_LETTER_WORDS)}')
     if not daily_word.is_running():
         daily_word.start()
 
-@tasks.loop(time=time(hour=22, minute=55))  # Täglich um 23:55 Berlin Time (CET)
+@tasks.loop(time=time(hour=22, minute=55))  # Täglich um 22:55 UTC (23:55 CET)
 async def daily_word():
     """Postet täglich ein zufälliges 5-Buchstaben-Wort"""
-    
+    global current_word  # HIER das global statement!
     
     if CHANNEL_ID is None:
         print("Fehler: CHANNEL_ID ist nicht gesetzt!")
@@ -106,6 +51,8 @@ async def daily_word():
 
 @client.event
 async def on_message(message):
+    global current_word  # HIER das global statement!
+    
     # Ignoriere Nachrichten vom Bot selbst
     if message.author == client.user:
         return
@@ -119,10 +66,13 @@ async def on_message(message):
     
     # Admin-Befehl zum Testen
     if message.content.startswith('!testword') and message.author.guild_permissions.administrator:
-        global current_word
         word = random.choice(FIVE_LETTER_WORDS)
         current_word = word  # Speichere auch das Testwort
         await message.channel.send(f"@here\n\n🎯 **Test-Wort**: `{word.upper()}`")
+    
+    # Info-Befehl: Zeigt Anzahl verfügbarer Wörter
+    if message.content.startswith('!wordcount'):
+        await message.channel.send(f"📊 Es gibt **{len(FIVE_LETTER_WORDS)}** verfügbare 5-Buchstaben-Wörter!")
 
 # Bot starten
 if __name__ == "__main__":
