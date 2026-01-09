@@ -3,7 +3,6 @@ from discord.ext import tasks
 import random
 import os
 from datetime import time
-from english_words import get_english_words_set
 
 # Discord Bot Setup
 intents = discord.Intents.default()
@@ -11,9 +10,13 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 # Hole alle 5-Buchstaben-Wörter aus dem english-words Paket
-english_words_set = get_english_words_set(['gcide'], alpha=True)
-english_words_list = list(english_words_set)
-FIVE_LETTER_WORDS = [word for word in english_words_list if len(word) == 5]
+cwd = os.getcwd()
+words_file_name = "words.txt"
+words_file_path = cwd + "/" + words_file_name
+FIVE_LETTER_WORDS = []
+with open(words_file_path, 'r') as f:
+    FIVE_LETTER_WORDS = [line for line in f]
+    
 
 print(f"Wortliste geladen: {len(FIVE_LETTER_WORDS)} Wörter mit 5 Buchstaben")
 
@@ -65,10 +68,10 @@ async def on_message(message):
             await message.channel.send("❌ Es wurde noch kein Wort des Tages gepostet!")
     
     # Admin-Befehl zum Testen
-    if message.content.startswith('!testword') and message.author.guild_permissions.administrator:
+    if message.content.startswith('!reroll') and message.author.guild_permissions.administrator:
         word = random.choice(FIVE_LETTER_WORDS)
         current_word = word  # Speichere auch das Testwort
-        await message.channel.send(f"@here\n\n🎯 **Test-Wort**: `{word.upper()}`")
+        await message.channel.send(f"@here\n\n🎯 **Neues Wort**: `{word.upper()}`")
     
     # Info-Befehl: Zeigt Anzahl verfügbarer Wörter
     if message.content.startswith('!wordcount'):
