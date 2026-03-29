@@ -33,7 +33,7 @@ async def on_ready():
     if not daily_word.is_running():
         daily_word.start()
 
-@tasks.loop(time=time(hour=22, minute=55))  # Täglich um 22:55 UTC (23:55 CET)
+@tasks.loop(time=time(hour=21, minute=59))  # Täglich um 21:59 UTC (1 hour earlier due to daylight savings time) (23:59 CET)
 async def daily_word():
     """Postet täglich ein zufälliges 5-Buchstaben-Wort"""
     global current_word  # HIER das global statement!
